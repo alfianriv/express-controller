@@ -1,0 +1,32 @@
+{
+  "name": "express-nest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node src/app.ts",
+    "test:unit": "vitest run --coverage"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2",
+    "express": "^5.1.0",
+    "reflect-metadata": "^0.2.2",
+    "routing-controllers": "^0.11.3",
+    "ts-node": "^10.9.2"
+  },
+  "devDependencies": {
+    "@golevelup/ts-jest": "^0.7.0",
+    "@golevelup/ts-vitest": "^0.5.2",
+    "@swc/core": "^1.15.3",
+    "@types/body-parser": "^1.19.6",
+    "@types/express": "github:types/express",
+    "@vitest/coverage-v8": "^4.0.13",
+    "unplugin-swc": "^1.5.8",
+    "vitest": "^4.0.13"
+  }
+}
