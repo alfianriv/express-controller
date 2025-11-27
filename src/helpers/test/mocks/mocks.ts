@@ -1,4 +1,4 @@
-import { UserModel } from '../../../models/users.model';
+import { UserModel } from '@/configs/databases/models/users.model';
 
 export const createMockUser = (overrides?: Partial<UserModel>): UserModel => {
   return {
