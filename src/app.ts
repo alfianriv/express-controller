@@ -1,3 +1,5 @@
+import { configDotenv } from 'dotenv';
+configDotenv();
 import 'reflect-metadata';
 import { useExpressServer } from 'routing-controllers';
 import { Controllers } from './modules';
