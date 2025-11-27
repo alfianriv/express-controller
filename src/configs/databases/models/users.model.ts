@@ -1,7 +1,7 @@
-import { BaseModel } from "../commons/database/base.model";
+import { BaseModel } from "../../../commons/database/base.model";
 
 export class UserModel extends BaseModel {
-    name: string;
+  name: string;
 
-    username: string;
+  username: string;
 }
