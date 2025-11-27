@@ -5,8 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node src/app.ts",
-    "test:unit": "vitest run --coverage"
+    "start": "ts-node -r tsconfig-paths/register src/app.ts",
+    "test:unit": "vitest run --coverage",
+    "lint": "eslint \"{src,apps,libs}/**/*.ts\"",
+    "lint:fix": "eslint \"{src,apps,libs}/**/*.ts\" --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "fix": "npm run lint:fix && npm run format"
   },
   "author": "",
   "license": "ISC",
@@ -17,7 +21,8 @@
     "express": "^5.1.0",
     "reflect-metadata": "^0.2.2",
     "routing-controllers": "^0.11.3",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
     "@golevelup/ts-jest": "^0.7.0",
@@ -25,8 +30,17 @@
     "@swc/core": "^1.15.3",
     "@types/body-parser": "^1.19.6",
     "@types/express": "github:types/express",
+    "@typescript-eslint/eslint-plugin": "^8.48.0",
+    "@typescript-eslint/parser": "^8.48.0",
     "@vitest/coverage-v8": "^4.0.13",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "globals": "^16.5.0",
+    "prettier": "^3.6.2",
+    "typescript-eslint": "^8.48.0",
     "unplugin-swc": "^1.5.8",
+    "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^4.0.13"
   }
 }

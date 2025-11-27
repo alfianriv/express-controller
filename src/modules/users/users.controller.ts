@@ -7,13 +7,13 @@ import {
   Param,
   Post,
   Put,
-} from "routing-controllers";
-import { CreateUserDto } from "./dto/create-user.dto";
-import { UserService } from "./users.service";
-import { UpdateUserDto } from "./dto/update-user.dto";
-import { UserModel } from "../../configs/databases/models/users.model";
+} from 'routing-controllers';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UserService } from './users.service';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UserModel } from '../../configs/databases/models/users.model';
 
-@Controller("/v1/users")
+@Controller('/v1/users')
 export class UserController {
   private readonly userService: UserService;
   constructor() {
@@ -25,9 +25,9 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @Get("/:id")
+  @Get('/:id')
   @OnUndefined(404)
-  findOne(@Param("id") id: number): UserModel {
+  findOne(@Param('id') id: number): UserModel {
     return this.userService.findOne(id);
   }
 
@@ -36,18 +36,18 @@ export class UserController {
     return this.userService.create(data);
   }
 
-  @Put("/:id")
+  @Put('/:id')
   @OnUndefined(404)
   update(
-    @Param("id") id: number,
-    @Body() data: UpdateUserDto
+    @Param('id') id: number,
+    @Body() data: UpdateUserDto,
   ): Promise<UserModel> {
     return this.userService.update(id, data);
   }
 
-  @Delete("/:id")
+  @Delete('/:id')
   @OnUndefined(404)
-  remove(@Param("id") id: number): Promise<void> {
+  remove(@Param('id') id: number): Promise<void> {
     return this.userService.remove(id);
   }
 }

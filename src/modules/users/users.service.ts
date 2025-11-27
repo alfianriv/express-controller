@@ -1,7 +1,7 @@
-import { UserModel } from "../../configs/databases/models/users.model";
-import { CreateUserDto } from "./dto/create-user.dto";
-import { UserRepository } from "../../configs/databases/repositories/user.repository";
-import { BadRequestError } from "routing-controllers";
+import { UserModel } from '../../configs/databases/models/users.model';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UserRepository } from '../../configs/databases/repositories/user.repository';
+import { BadRequestError } from 'routing-controllers';
 
 export class UserService {
   private readonly userRepository: UserRepository;
@@ -12,7 +12,7 @@ export class UserService {
   async create(data: CreateUserDto): Promise<UserModel> {
     const user = await this.userRepository.findOneByUsername(data.username);
     if (user) {
-      throw new BadRequestError("User already exists");
+      throw new BadRequestError('User already exists');
     }
     return this.userRepository.createUser(data);
   }
@@ -32,7 +32,7 @@ export class UserService {
         exceptionId: id,
       });
       if (user) {
-        throw new BadRequestError("User already exists");
+        throw new BadRequestError('User already exists');
       }
     }
     return this.userRepository.update(id, data);

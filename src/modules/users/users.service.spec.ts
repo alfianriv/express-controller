@@ -1,12 +1,12 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
-import { UserService } from "./users.service";
-import { createMockUser } from "../../helpers/test/mocks/mocks";
-import { CreateUserDto } from "./dto/create-user.dto";
-import { BadRequestError } from "routing-controllers";
-import { UserRepository } from "../../configs/databases/repositories/user.repository";
-import { createMock } from "@golevelup/ts-vitest";
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { UserService } from './users.service';
+import { createMockUser } from '../../helpers/test/mocks/mocks';
+import { CreateUserDto } from './dto/create-user.dto';
+import { BadRequestError } from 'routing-controllers';
+import { UserRepository } from '../../configs/databases/repositories/user.repository';
+import { createMock } from '@golevelup/ts-vitest';
 
-describe("UserService", () => {
+describe('UserService', () => {
   let service: UserService;
   let userRepository: UserRepository;
 
@@ -17,9 +17,9 @@ describe("UserService", () => {
     (service as any).userRepository = userRepository;
   });
 
-  describe("create", () => {
-    it("should create a user if username is unique", async () => {
-      const dto: CreateUserDto = { name: "Test", username: "test" };
+  describe('create', () => {
+    it('should create a user if username is unique', async () => {
+      const dto: CreateUserDto = { name: 'Test', username: 'test' };
       const mockUser = createMockUser({ ...dto });
 
       vi.mocked(userRepository.findOneByUsername).mockResolvedValue(null);
@@ -28,18 +28,18 @@ describe("UserService", () => {
       const result = await service.create(dto);
 
       expect(userRepository.findOneByUsername).toHaveBeenCalledWith(
-        dto.username
+        dto.username,
       );
       expect(userRepository.createUser).toHaveBeenCalledWith(dto);
       expect(result).toEqual(mockUser);
     });
 
-    it("should throw BadRequestError if user already exists", async () => {
-      const dto: CreateUserDto = { name: "Test", username: "test" };
-      const existingUser = createMockUser({ username: "test" });
+    it('should throw BadRequestError if user already exists', async () => {
+      const dto: CreateUserDto = { name: 'Test', username: 'test' };
+      const existingUser = createMockUser({ username: 'test' });
 
       vi.mocked(userRepository.findOneByUsername).mockResolvedValue(
-        existingUser
+        existingUser,
       );
 
       await expect(service.create(dto)).rejects.toThrow(BadRequestError);
@@ -47,8 +47,8 @@ describe("UserService", () => {
     });
   });
 
-  describe("findAll", () => {
-    it("should return all users", async () => {
+  describe('findAll', () => {
+    it('should return all users', async () => {
       const mockUsers = [createMockUser()];
       vi.mocked(userRepository.findAll).mockResolvedValue(mockUsers);
 
@@ -59,8 +59,8 @@ describe("UserService", () => {
     });
   });
 
-  describe("findOne", () => {
-    it("should return a user by id", async () => {
+  describe('findOne', () => {
+    it('should return a user by id', async () => {
       const mockUser = createMockUser();
       vi.mocked(userRepository.findOneById).mockResolvedValue(mockUser);
 
@@ -73,10 +73,10 @@ describe("UserService", () => {
     });
   });
 
-  describe("update", () => {
-    it("should update a user", async () => {
+  describe('update', () => {
+    it('should update a user', async () => {
       const mockUser = createMockUser();
-      const updateData = { name: "Updated" };
+      const updateData = { name: 'Updated' };
       const updatedUser = { ...mockUser, ...updateData };
 
       vi.mocked(userRepository.findOneById).mockResolvedValue(mockUser);
@@ -91,25 +91,25 @@ describe("UserService", () => {
       expect(result).toEqual(updatedUser);
     });
 
-    it("shound not update throw error username already exist", async () => {
+    it('shound not update throw error username already exist', async () => {
       const mockUser = createMockUser();
-      const updateData = { name: "Updated", username: "test" };
+      const updateData = { name: 'Updated', username: 'test' };
       const updatedUser = { ...mockUser, ...updateData };
 
       vi.mocked(userRepository.findOneById).mockResolvedValue(mockUser);
       vi.mocked(userRepository.findOneByUsername).mockResolvedValue(
-        createMockUser({ id: 2, username: "test" })
+        createMockUser({ id: 2, username: 'test' }),
       );
       vi.mocked(userRepository.update).mockResolvedValue(updatedUser);
 
       await expect(service.update(1, updateData)).rejects.toThrow(
-        BadRequestError
+        BadRequestError,
       );
     });
 
-    it("should update a user with new unique username", async () => {
+    it('should update a user with new unique username', async () => {
       const mockUser = createMockUser();
-      const updateData = { username: "newunique" };
+      const updateData = { username: 'newunique' };
       const updatedUser = { ...mockUser, ...updateData };
 
       vi.mocked(userRepository.findOneById).mockResolvedValue(mockUser);
@@ -119,16 +119,16 @@ describe("UserService", () => {
       const result = await service.update(1, updateData);
 
       expect(userRepository.findOneByUsername).toHaveBeenCalledWith(
-        "newunique",
-        { exceptionId: 1 }
+        'newunique',
+        { exceptionId: 1 },
       );
       expect(userRepository.update).toHaveBeenCalledWith(1, updateData);
       expect(result).toEqual(updatedUser);
     });
   });
 
-  describe("remove", () => {
-    it("should remove a user", async () => {
+  describe('remove', () => {
+    it('should remove a user', async () => {
       const mockUser = createMockUser();
       vi.mocked(userRepository.findOneById).mockResolvedValue(mockUser);
 
