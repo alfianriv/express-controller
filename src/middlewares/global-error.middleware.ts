@@ -3,6 +3,7 @@ import {
   ExpressErrorMiddlewareInterface,
 } from 'routing-controllers';
 import { Request, Response, NextFunction } from 'express';
+import { logger } from '@/helpers/logger/pino';
 
 @Middleware({ type: 'after' })
 export class GlobalErrorHandler implements ExpressErrorMiddlewareInterface {
@@ -21,6 +22,12 @@ export class GlobalErrorHandler implements ExpressErrorMiddlewareInterface {
         errors = firstError.constraints[firstConstraintKey];
       }
     }
+
+    logger.error({
+      name: error.name,
+      message: message,
+      errors: errors,
+    });
 
     response.status(status).json({
       success: false,
