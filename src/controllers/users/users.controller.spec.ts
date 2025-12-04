@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { UserController } from './users.controller';
-import { UserService } from './users.service';
-import { createMockUser } from '../../helpers/test/mocks/mocks';
+import { createMockUser } from '../../helpers/test/mocks/user.mock';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { createMock } from '@golevelup/ts-vitest';
+import { UserService } from '@/modules/users/users.service';
 
 describe('UserController', () => {
   let controller: UserController;
@@ -13,8 +13,15 @@ describe('UserController', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     userService = createMock<UserService>();
-    controller = new UserController();
-    (controller as any).userService = userService;
+    controller = new UserController(userService);
+  });
+
+  describe('constructor', () => {
+    it('should create an instance with default services', () => {
+      const defaultController = new UserController();
+      expect(defaultController).toBeDefined();
+      expect(defaultController).toBeInstanceOf(UserController);
+    });
   });
 
   describe('getAll', () => {

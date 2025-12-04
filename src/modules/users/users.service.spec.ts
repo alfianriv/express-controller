@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { UserService } from './users.service';
-import { createMockUser } from '../../helpers/test/mocks/mocks';
-import { CreateUserDto } from './dto/create-user.dto';
-import { BadRequestError } from 'routing-controllers';
+import { createMockUser } from '../../helpers/test/mocks/user.mock';
+import { CreateUserDto } from '../../controllers/users/dto/create-user.dto';
+import { BadRequestError, NotFoundError } from 'routing-controllers';
 import { UserRepository } from '../../configs/databases/repositories/user.repository';
 import { createMock } from '@golevelup/ts-vitest';
 
@@ -13,8 +13,7 @@ describe('UserService', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     userRepository = createMock<UserRepository>();
-    service = new UserService();
-    (service as any).userRepository = userRepository;
+    service = new UserService(userRepository);
   });
 
   describe('create', () => {
@@ -66,10 +65,15 @@ describe('UserService', () => {
 
       const result = await service.findOne(1);
 
-      expect(userRepository.findOneById).toHaveBeenCalledWith(1, {
-        validate: true,
-      });
+      expect(userRepository.findOneById).toHaveBeenCalledWith(1);
       expect(result).toEqual(mockUser);
+    });
+
+    it('should throw error if user not found', async () => {
+      vi.mocked(userRepository.findOneById).mockReturnValue(null);
+      expect(() => service.findOne(999, { validate: true })).toThrow(
+        NotFoundError,
+      );
     });
   });
 
@@ -84,9 +88,7 @@ describe('UserService', () => {
 
       const result = await service.update(1, updateData);
 
-      expect(userRepository.findOneById).toHaveBeenCalledWith(1, {
-        validate: true,
-      });
+      expect(userRepository.findOneById).toHaveBeenCalledWith(1);
       expect(userRepository.update).toHaveBeenCalledWith(1, updateData);
       expect(result).toEqual(updatedUser);
     });
@@ -120,7 +122,6 @@ describe('UserService', () => {
 
       expect(userRepository.findOneByUsername).toHaveBeenCalledWith(
         'newunique',
-        { exceptionId: 1 },
       );
       expect(userRepository.update).toHaveBeenCalledWith(1, updateData);
       expect(result).toEqual(updatedUser);

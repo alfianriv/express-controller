@@ -2,7 +2,7 @@ import { configDotenv } from 'dotenv';
 configDotenv();
 import 'reflect-metadata';
 import { useExpressServer } from 'routing-controllers';
-import { Controllers } from './modules';
+import { Controllers } from './controllers';
 import { GlobalErrorHandler } from './middlewares/global-error.middleware';
 import express from 'express';
 import bodyParser from 'body-parser';

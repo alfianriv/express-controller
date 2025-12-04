@@ -9,15 +9,14 @@ import {
   Put,
 } from 'routing-controllers';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UserService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserModel } from '../../configs/databases/models/users.model';
+import { UserService } from '@/modules/users/users.service';
 
 @Controller('/v1/users')
 export class UserController {
-  private readonly userService: UserService;
-  constructor() {
-    this.userService = new UserService();
+  constructor(private readonly userService?: UserService) {
+    this.userService = this.userService ?? new UserService();
   }
 
   @Get()
